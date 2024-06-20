@@ -3,7 +3,6 @@ from train import Trainer, Finetuner
 import os
 import argparse
 import random
-import shutil  
 import os.path as osp 
 
 parser = argparse.ArgumentParser()
@@ -22,13 +21,13 @@ model_dir = osp.join("best_models",args.dataset)
 results_dir = osp.join("results",args.dataset)
 checkpoint_dir = osp.join("checkpoints", args.dataset)
 
-if not os.path.exists(checkpoint_dir):
+if not osp.exists(checkpoint_dir):
     os.makedirs(checkpoint_dir)
     
-if not os.path.exists(model_dir):
+if not osp.exists(model_dir):
     os.makedirs(model_dir)
     
-if not os.path.exists(results_dir):
+if not osp.exists(results_dir):
     os.makedirs(results_dir)
     
 # generate action dictionary using the mapping file
@@ -64,15 +63,16 @@ for i in range(repeat):
     finetuner = Finetuner(args.N, args.M, num_classes, args.dataset, args.margin, args.d_model)
 
     # train and then finetune
-    n_epoch, l_fit, _ = trainer.train_val(gt_path, features_path, checkpoint_dir, dataset=args.dataset, N = args.N, M = args.M)
+    n_epoch, loss_fit, _ = trainer.train_val(gt_path, features_path, checkpoint_dir, dataset=args.dataset, N = args.N, M = args.M)
 
-    acc,prec,rec,jac = finetuner.finetune_test(gt_path, features_path, checkpoint_dir, model_dir, num_epochs=1000, dataset=args.dataset, n_epoch=n_epoch, l_fit=l_fit, N = args.N, M = args.M, seed=seed)
+    acc,prec,rec,jac = finetuner.finetune_test(gt_path, features_path, checkpoint_dir, model_dir, num_epochs=1000, dataset=args.dataset, n_epoch=n_epoch, loss_fit=loss_fit, N = args.N, M = args.M, seed=seed)
 
     # store results into dictionary
     results_dict[str(i)] = [acc,prec,rec,jac]
 
     # clear checkpoint for next experiment run
-    shutil.rmtree(checkpoint_dir)
+    for checkpoint in os.listdir(checkpoint_dir):
+        os.remove(osp.join(checkpoint_dir,checkpoint))
     
 print(results_dict)
 

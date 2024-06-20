@@ -187,7 +187,7 @@ class Finetuner:
         self.num_classes = num_classes
         
 
-    def finetune_test(self,gt_path,features_path, save_dir, num_epochs, dataset, n_epoch, loss_fit, N, M, seed):
+    def finetune_test(self,gt_path,features_path, save_dir, model_dir, num_epochs, dataset, n_epoch, loss_fit, N, M, seed):
         # dataset
         train_dataloader, _, train_size, _ = create_dataloader(gt_dir= gt_path, feat_dir=features_path, dataset=dataset, phase="finetune") 
 
@@ -250,7 +250,6 @@ class Finetuner:
                 total += T 
 
            
-            torch.save(self.model.state_dict(), osp.join(save_dir,f"best_acc_{seed}.model"))
             print(("TRAIN: [epoch %d]: epoch loss = %f,   acc = %f" % (epoch, epoch_loss / train_size,float(correct)/total)))
 
             average_loss = epoch_loss / train_size
@@ -258,7 +257,9 @@ class Finetuner:
                     
             if average_loss - loss_fit<0:
                 print("*"*100)
-
+                
+                torch.save(self.model.state_dict(), osp.join(model_dir,f"best_acc_{seed}.model"))
+                
                 if dataset == "cholec80":
                     dictionary = {'Preparation': 0, 'CalotTriangleDissection': 1, 'ClippingCutting': 2, 'GallbladderDissection': 3, 'GallbladderPackaging': 4, 'CleaningCoagulation': 5, 'GallbladderRetraction': 6}
                 elif dataset == "m2cai":
