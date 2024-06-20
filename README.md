@@ -40,7 +40,7 @@ Surgical workflow analysis aims to recognise surgical phases from untrimmed surg
     conda create -n cmtnet python=3.9 -y
     conda activate cmtnet
     ```
-3. Install Pytorch and TorchVision. In our case, we use `pip install torch==1.11.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113`. Please follow the instructions [here](https://pytorch.org/get-started/locally/) for installation in your specific condition. 
+3. Install Pytorch. In our case, we use `pip install torch==1.11.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113`. Please follow the instructions [here](https://pytorch.org/get-started/locally/) for installation in your specific condition. 
 
 4. Install other dependencies.
     ```
