@@ -1,4 +1,4 @@
-<h2 align="center"> [TMI2023] Cascade Multi-Level Transformer Network for Surgical Workflow Analysis </h2>
+<h3 align="center"> [TMI2023] Cascade Multi-Level Transformer Network for Surgical Workflow Analysis </h3>
 <p align="center">
 <a href="https://ieeexplore.ieee.org/document/10098668"><img src="https://img.shields.io/badge/ieee-Paper-<color>"></a>
 </p>
